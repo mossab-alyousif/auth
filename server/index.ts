@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import volleyball from 'volleyball';
 import dotenv from 'dotenv';
 import router from './auth/index';
+import middlewares from './auth/middlewares';
 
 dotenv.config();
 const port = process.env.SERVER_PORT;
@@ -10,11 +11,13 @@ const app = express();
 app.use(volleyball);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(middlewares.checkTokenSetUser);
 app.use('/auth', router);
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req: any, res: Response) => {
   res.json({
-    message: 'Hello World!'
+    message: 'Hello World!',
+    user: req.user
   });
 });
 

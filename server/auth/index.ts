@@ -43,7 +43,7 @@ router.post('/signup', async (req: Request, res: Response, next: NextFunction) =
 
       const token = await jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '1d' });
 
-      res.header({ token });
+      res.header({ authorization: token });
       res.json(payload);
     }
   }
@@ -70,7 +70,7 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
         };
         const token = await jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '1d' });
 
-        res.header({ token });
+        res.header({ authorization: token });
         res.json(payload);
       } else {
         res.statusCode = 400;
